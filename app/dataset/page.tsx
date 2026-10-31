@@ -46,8 +46,8 @@ export default function DatasetPage() {
   // Pagination state
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(20);
-  const [total, setTotal] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const [total, setTotal] = useState<number>(71000);
+  const [totalPages, setTotalPages] = useState<number>(3550);
 
   // Modals state
   const [selectedRecord, setSelectedRecord] = useState<EmailRecordItem | null>(null);
@@ -312,9 +312,9 @@ export default function DatasetPage() {
                 onChange={handleLabelFilterChange}
                 className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700 font-medium cursor-pointer"
               >
-                <option value="all">All Labels</option>
-                <option value="1">Phishing (1)</option>
-                <option value="0">Safe (0)</option>
+                <option value="all">All Labels (71,000)</option>
+                <option value="1">Phishing</option>
+                <option value="0">Safe</option>
               </select>
             </div>
 
@@ -430,11 +430,11 @@ export default function DatasetPage() {
                       <td className="px-4 py-3.5">
                         {record.label === 1 ? (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
-                            Phishing (1)
+                            Phishing
                           </span>
                         ) : (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            Safe (0)
+                            Safe
                           </span>
                         )}
                       </td>
@@ -593,7 +593,7 @@ export default function DatasetPage() {
                         onChange={() => setAddLabel(0)}
                         className="accent-indigo-600"
                       />
-                      Safe (0)
+                      Safe
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-gray-700">
                       <input
@@ -603,7 +603,7 @@ export default function DatasetPage() {
                         onChange={() => setAddLabel(1)}
                         className="accent-red-600"
                       />
-                      Phishing (1)
+                      Phishing
                     </label>
                   </div>
                 </div>
@@ -706,7 +706,7 @@ export default function DatasetPage() {
                         onChange={() => setEditingRecord({ ...editingRecord, label: 0 })}
                         className="accent-indigo-600"
                       />
-                      Safe (0)
+                      Safe
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-gray-700">
                       <input
@@ -716,7 +716,7 @@ export default function DatasetPage() {
                         onChange={() => setEditingRecord({ ...editingRecord, label: 1 })}
                         className="accent-red-600"
                       />
-                      Phishing (1)
+                      Phishing
                     </label>
                   </div>
                 </div>
@@ -759,11 +759,11 @@ export default function DatasetPage() {
                   </span>
                   {selectedRecord.label === 1 ? (
                     <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-50 text-red-600 border border-red-200">
-                      Phishing (1)
+                      Phishing
                     </span>
                   ) : (
                     <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      Safe (0)
+                      Safe
                     </span>
                   )}
                 </div>
@@ -815,181 +815,6 @@ export default function DatasetPage() {
             </div>
           </div>
         )}
-
-        {/* ── Implementation Checklist (Bottom) ─────────────────────────── */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-          <p className="mb-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            Dataset Module Tasks (Implementation Checklist)
-          </p>
-
-          <ul className="space-y-2 text-xs text-gray-700">
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Implement core/dataset_service.py converting pandas DataFrame rows into EmailRecord objects
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Build EmailRecord OOP class with get_domain(), to_dict(), from_dict()
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Implement GET /api/dataset with pagination (page, per_page)
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Implement GET /api/dataset/search with query, label, and domain filtering
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Implement POST /api/dataset for adding new records with set ID uniqueness verification
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Implement PUT /api/dataset/&lt;id&gt; for editing records in-place
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Implement DELETE /api/dataset/&lt;id&gt; for removing records from memory and ID set
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Backend: Implement GET /api/dataset/export utilizing pandas to_csv() with text/csv attachment download
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Frontend: Connect Next.js to Flask API (http://localhost:5000) with live search and pagination
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Frontend: Build responsive Search Bar for text queries across sender, subject, and body
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Frontend: Add Label Filter Dropdown: &quot;All Labels&quot;, &quot;Phishing (1)&quot;, &quot;Safe (0)&quot;
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Frontend: Implement &quot;Add Email&quot; modal with field validation &amp; SweetAlert feedback
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Frontend: Implement &quot;Edit Email&quot; modal pre-populated with selected row data &amp; SweetAlert feedback
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Frontend: Integrate SweetAlert2 (Swal.fire) confirmation dialog preventing accidental deletion
-              </span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <input
-                type="checkbox"
-                checked
-                disabled
-                className="w-4 h-4 rounded text-indigo-600 accent-indigo-600 cursor-not-allowed"
-              />
-              <span className="line-through text-gray-400">
-                [Completed] Frontend: Wire &quot;Export CSV&quot; button to trigger filtered/full file download stream
-              </span>
-            </li>
-          </ul>
-        </div>
       </div>
     </DashboardLayout>
   );
