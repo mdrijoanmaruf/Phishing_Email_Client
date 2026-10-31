@@ -30,7 +30,7 @@ export default function DashboardPage() {
       try {
         const [sum, hist] = await Promise.all([
           getAnalyticsSummary().catch(() => null),
-          getHistory(undefined, 5).catch(() => ({ data: [] })),
+          getHistory(undefined, undefined, 5).catch(() => ({ data: [] })),
         ]);
         if (sum) setSummary(sum);
         if (hist?.data) setRecentScans(hist.data);
@@ -64,11 +64,11 @@ export default function DashboardPage() {
       desc: 'Deep-dive into score statistics (mean, std, percentiles) and keyword frequency distributions.',
     },
     {
-      title: 'Scan Audit History',
+      title: 'Activity History',
       href: '/history',
       icon: History,
-      badge: `${summary?.total_scans_performed || recentScans.length} Scans`,
-      desc: 'Audit trail of past scanned emails with full explanation logs and JSON persistence.',
+      badge: 'Audit Trail',
+      desc: 'Track all Add, Edit, Delete, View, and Blacklist operations persisted to history.json.',
     },
   ];
 
@@ -233,13 +233,13 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Recent Scans Widget */}
+          {/* Recent Activity Widget */}
           <div className="lg:col-span-5 space-y-4">
             <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   <History className="w-4 h-4 text-indigo-600" />
-                  Recent Scans
+                  Recent Activity Logs
                 </h2>
                 <Link
                   href="/history"
@@ -250,7 +250,7 @@ export default function DashboardPage() {
               </div>
 
               {loading ? (
-                <div className="py-12 text-center text-xs text-gray-400">Loading recent scans...</div>
+                <div className="py-12 text-center text-xs text-gray-400">Loading activity logs...</div>
               ) : recentScans.length === 0 ? (
                 <div className="py-12 text-center text-xs text-gray-400">
                   <History className="w-8 h-8 text-gray-300 mx-auto mb-2" />
@@ -261,33 +261,39 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="space-y-2.5">
-                  {recentScans.map((scan) => {
-                    const isSafe = scan.verdict === 'SAFE';
-                    const isSuspicious = scan.verdict === 'SUSPICIOUS';
-                    const badgeClass = isSafe
+                  {recentScans.map((item) => {
+                    const act = (item.action || 'LOG').toUpperCase();
+                    const isAdd = act.includes('ADD');
+                    const isEdit = act.includes('EDIT');
+                    const isDelete = act.includes('DELETE');
+                    const isView = act.includes('VIEW');
+                    const badgeClass = isAdd
                       ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                      : isSuspicious
-                      ? 'bg-amber-50 text-amber-700 border-amber-200'
-                      : 'bg-red-50 text-red-700 border-red-200';
+                      : isEdit
+                      ? 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                      : isDelete
+                      ? 'bg-red-50 text-red-700 border-red-200'
+                      : isView
+                      ? 'bg-blue-50 text-blue-700 border-blue-200'
+                      : 'bg-amber-50 text-amber-700 border-amber-200';
 
                     return (
                       <div
-                        key={scan.id}
+                        key={item.id}
                         className="p-3 rounded-lg border border-gray-100 bg-gray-50/60 flex items-center justify-between gap-3"
                       >
                         <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold text-gray-900 truncate" title={scan.subject}>
-                            {scan.subject || scan.sender || 'Email Scan'}
+                          <p className="text-xs font-semibold text-gray-900 truncate" title={item.summary}>
+                            {item.summary || `${act} operation`}
                           </p>
                           <p className="text-[10px] text-gray-400 truncate mt-0.5">
-                            {scan.domain || scan.sender || 'Domain unverified'}
+                            {item.entity_type} #{item.entity_id} &bull; {item.actor || 'Administrator'}
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2 shrink-0">
-                          <span className="text-xs font-bold text-gray-800">{scan.score}</span>
+                        <div className="shrink-0">
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${badgeClass}`}>
-                            {scan.verdict}
+                            {act}
                           </span>
                         </div>
                       </div>

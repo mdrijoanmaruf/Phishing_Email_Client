@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
   { href: '/dataset', label: 'Dataset', Icon: Database },
   { href: '/analytics', label: 'Analytics', Icon: BarChart2 },
   { href: '/blacklist', label: 'Blacklist', Icon: ShieldBan },
-  { href: '/history', label: 'Scan History', Icon: History },
+  { href: '/history', label: 'History', Icon: History },
 ];
 
 interface SidebarProps {

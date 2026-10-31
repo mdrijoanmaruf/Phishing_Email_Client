@@ -9,6 +9,7 @@ import {
   updateDatasetRecord,
   deleteDatasetRecord,
   getExportCsvUrl,
+  logActivity,
   EmailRecordItem,
 } from '@/lib/api';
 import {
@@ -240,6 +241,25 @@ export default function DatasetPage() {
     showSuccessToast('Export Started', 'Your CSV download should begin shortly.');
   };
 
+  // View Details with activity logging
+  const handleViewRecord = (record: EmailRecordItem) => {
+    setSelectedRecord(record);
+    logActivity({
+      action: 'VIEW',
+      entity_type: 'EMAIL',
+      entity_id: record.id,
+      summary: `Viewed email #${record.id}: ${record.subject || '(No subject)'}`,
+      details: {
+        id: record.id,
+        sender: record.sender,
+        subject: record.subject,
+        label: record.label,
+        domain: record.domain,
+      },
+      actor: 'Administrator',
+    }).catch(() => {});
+  };
+
   return (
     <DashboardLayout pageTitle="Dataset Management">
       <div className="space-y-6 max-w-7xl">
@@ -461,7 +481,7 @@ export default function DatasetPage() {
                       <td className="px-4 py-3.5 text-center">
                         <div className="flex items-center justify-center gap-1">
                           <button
-                            onClick={() => setSelectedRecord(record)}
+                            onClick={() => handleViewRecord(record)}
                             className="p-1.5 rounded-md text-gray-400 hover:text-indigo-700 hover:bg-indigo-50 transition-colors cursor-pointer"
                             title="View Email Details"
                           >

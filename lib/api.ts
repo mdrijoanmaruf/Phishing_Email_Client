@@ -29,26 +29,19 @@ export interface PaginatedDatasetResponse {
   message?: string;
 }
 
-export interface ScanResult {
+export interface HistoryLogItem {
   id: string;
   timestamp: string;
-  sender: string;
-  domain: string;
-  subject: string;
-  body: string;
-  score: number;
-  verdict: 'SAFE' | 'SUSPICIOUS' | 'PHISHING';
-  reasons: string[];
-  urls: string[];
-  keywords_found: string[];
-  details?: {
-    blacklisted_domain?: boolean;
-    high_risk_tld?: boolean;
-    caps_ratio?: number;
-    exclamation_count?: number;
-    rule_scores?: Record<string, number>;
-  };
+  action: 'ADD' | 'EDIT' | 'DELETE' | 'VIEW' | 'BLACKLIST_ADD' | 'BLACKLIST_REMOVE' | string;
+  entity_type: 'EMAIL' | 'BLACKLIST' | 'DATASET' | string;
+  entity_id: string;
+  summary: string;
+  details?: Record<string, any>;
+  actor: string;
 }
+
+// Retain ScanResult interface for backwards-compatibility
+export type ScanResult = HistoryLogItem;
 
 export interface AnalyticsSummary {
   total_dataset_records: number;
@@ -286,16 +279,20 @@ export async function removeFromBlacklist(domain: string): Promise<{ success: bo
 }
 
 // ==========================================
-// HISTORY APIS
+// HISTORY & AUDIT APIS
 // ==========================================
 
 export async function getHistory(
-  verdict?: string,
-  limit: number = 100
-): Promise<{ success: boolean; count: number; total: number; data: ScanResult[] }> {
+  action?: string,
+  entityType?: string,
+  limit: number = 200
+): Promise<{ success: boolean; count: number; total: number; data: HistoryLogItem[] }> {
   const params: Record<string, string> = { limit: String(limit) };
-  if (verdict && verdict !== 'ALL') {
-    params.verdict = verdict;
+  if (action && action !== 'ALL') {
+    params.action = action;
+  }
+  if (entityType && entityType !== 'ALL') {
+    params.entity_type = entityType;
   }
 
   const qs = new URLSearchParams(params).toString();
@@ -307,7 +304,29 @@ export async function getHistory(
 
   const json = await res.json();
   if (!res.ok) {
-    throw new Error(json.error || 'Failed to fetch scan history');
+    throw new Error(json.error || 'Failed to fetch history logs');
+  }
+
+  return json;
+}
+
+export async function logActivity(payload: {
+  action: string;
+  entity_type: string;
+  entity_id: string;
+  summary: string;
+  details?: Record<string, any>;
+  actor?: string;
+}): Promise<{ success: boolean; data: HistoryLogItem }> {
+  const res = await fetch(`${API_BASE_URL}/api/history/log`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to record activity log');
   }
 
   return json;
