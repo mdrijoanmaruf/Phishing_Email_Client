@@ -9,8 +9,9 @@ import {
   BarChart2,
   ShieldBan,
   History,
-  ShieldAlert,
   X,
+  Server,
+  ExternalLink,
 } from 'lucide-react';
 
 interface NavItem {
@@ -22,12 +23,12 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { href: '/dashboard',  label: 'Dashboard',    Icon: LayoutDashboard, exact: true },
-  { href: '/dataset',    label: 'Dataset',       Icon: Database },
-  { href: '/scan',       label: 'Scan Email',    Icon: ScanLine },
-  { href: '/analytics',  label: 'Analytics',     Icon: BarChart2 },
-  { href: '/blacklist',  label: 'Blacklist',     Icon: ShieldBan },
-  { href: '/history',    label: 'Scan History',  Icon: History },
+  { href: '/dashboard', label: 'Dashboard', Icon: LayoutDashboard, exact: true },
+  { href: '/dataset', label: 'Dataset', Icon: Database },
+  { href: '/scan', label: 'Scan Email', Icon: ScanLine },
+  { href: '/analytics', label: 'Analytics', Icon: BarChart2 },
+  { href: '/blacklist', label: 'Blacklist', Icon: ShieldBan },
+  { href: '/history', label: 'Scan History', Icon: History },
 ];
 
 interface SidebarProps {
@@ -38,66 +39,51 @@ interface SidebarProps {
 export default function Sidebar({ open, onClose }: SidebarProps) {
   const pathname = usePathname();
 
-  const isActive = (item: NavItem) =>
-    item.exact ? pathname === item.href : pathname.startsWith(item.href);
-
   return (
-    <>
-      {/* Backdrop (mobile only) */}
-      {open && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
-          onClick={onClose}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Sidebar panel */}
-      <aside
-        className={`
-          fixed top-0 left-0 z-50 h-screen w-64
-          bg-[#0f172a] flex flex-col
-          transition-transform duration-300 ease-in-out
-          ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-        `}
-      >
-        {/* ── Logo header ───────────────────────────────────────── */}
-        <div className="h-20 px-5 flex items-center justify-between border-b border-white/10 shrink-0">
+    <aside
+      className={`fixed top-0 left-0 z-50 h-screen w-60 bg-white border-r border-gray-100 transition-transform duration-300 ease-in-out ${
+        open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      }`}
+    >
+      <div className="h-full flex flex-col relative">
+        {/* Logo Header */}
+        <div className="h-20 px-6 flex items-center justify-between border-b border-gray-100">
           <Link href="/dashboard" className="flex items-center gap-3" onClick={onClose}>
-            {/* Shield icon as logo */}
-            <div className="w-10 h-10 rounded-xl bg-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/30 shrink-0">
-              <ShieldAlert className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-700 to-indigo-900 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-900/30">
+              PG
             </div>
             <div>
-              <h1 className="text-white font-bold text-base leading-tight">PhishGuard</h1>
-              <p className="text-cyan-400 text-[10px] uppercase tracking-widest">Detector</p>
+              <h1 className="text-lg font-bold text-gray-900">PhishGuard</h1>
+              <p className="text-[10px] text-indigo-600 uppercase tracking-wider font-semibold">
+                Security Panel
+              </p>
             </div>
           </Link>
-
-          {/* Mobile close button */}
           <button
             type="button"
             onClick={onClose}
-            className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-500"
             aria-label="Close sidebar"
+            title="Close sidebar"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* ── Navigation ────────────────────────────────────────── */}
+        {/* Navigation */}
         <nav
-          className="flex-1 px-3 py-6 overflow-y-auto sidebar-scroll"
+          className="flex-1 px-4 py-6 overflow-y-auto pb-28"
           role="navigation"
-          aria-label="Main navigation"
+          aria-label="Sidebar navigation"
         >
-          <p className="px-3 mb-3 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
+          <p className="px-4 mb-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
             Menu
           </p>
-
           <ul className="space-y-1">
             {navItems.map((item) => {
-              const active = isActive(item);
+              const isActive = item.exact
+                ? pathname === item.href
+                : pathname.startsWith(item.href) && item.href !== '/';
               const { Icon } = item;
 
               return (
@@ -105,32 +91,19 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    aria-current={active ? 'page' : undefined}
-                    className={`
-                      group flex items-center gap-3 px-3 py-2.5 rounded-xl
-                      text-sm font-medium transition-all duration-200
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400
-                      ${
-                        active
-                          ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/25'
-                          : 'text-slate-400 hover:bg-white/5 hover:text-white'
-                      }
-                    `}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                      isActive
+                        ? 'bg-gradient-to-r from-indigo-700 to-indigo-900 text-white shadow-lg shadow-indigo-900/30'
+                        : 'text-gray-600 hover:bg-indigo-50 hover:text-indigo-700'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
                   >
-                    <Icon
-                      className={`w-5 h-5 shrink-0 transition-colors ${
-                        active ? 'text-white' : 'text-slate-500 group-hover:text-cyan-400'
-                      }`}
-                    />
+                    <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-indigo-600'}`} />
                     <span className="flex-1">{item.label}</span>
-
-                    {/* Badge */}
                     {item.badge != null && item.badge > 0 && (
                       <span
-                        className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-5 text-center ${
-                          active
-                            ? 'bg-white/20 text-white'
-                            : 'bg-red-500 text-white'
+                        className={`text-xs font-bold px-1.5 py-0.5 rounded-full min-w-5 text-center ${
+                          isActive ? 'bg-white/20 text-white' : 'bg-red-500 text-white'
                         }`}
                       >
                         {item.badge > 99 ? '99+' : item.badge}
@@ -143,18 +116,27 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           </ul>
         </nav>
 
-        {/* ── Footer ────────────────────────────────────────────── */}
-        <div className="px-3 py-4 border-t border-white/10 shrink-0">
-          <div className="px-3 py-2.5 rounded-xl bg-white/5">
-            <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Backend</p>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-slate-300 text-xs font-medium">Flask API · localhost:5000</span>
+        {/* Quick Links (Bottom-Left, full-width) */}
+        <div className="absolute left-4 right-4 bottom-5">
+          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-2 w-full">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-gray-600">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="truncate">Flask API (5000)</span>
+              </div>
+              <Link
+                href="/scan"
+                onClick={onClose}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium text-indigo-700 hover:bg-indigo-50 transition-colors"
+              >
+                <Server className="w-4 h-4 text-indigo-600" />
+                <span>Quick Scan</span>
+                <ExternalLink className="w-3 h-3 ml-auto text-gray-400" />
+              </Link>
             </div>
           </div>
         </div>
-      </aside>
-    </>
+      </div>
+    </aside>
   );
 }
-

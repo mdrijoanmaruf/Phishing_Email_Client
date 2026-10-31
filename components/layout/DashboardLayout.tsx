@@ -13,27 +13,28 @@ export default function DashboardLayout({ children, pageTitle }: DashboardLayout
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      {/* Fixed sidebar */}
+    <div className="min-h-screen bg-gray-100">
+      {/* Sidebar */}
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Content pushed right on desktop */}
-      <div className="lg:ml-64 min-h-screen flex flex-col">
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main Content Area */}
+      <div className="lg:ml-60 min-h-screen flex flex-col">
+        {/* Top Header */}
         <Topbar pageTitle={pageTitle} onMenuClick={() => setSidebarOpen(true)} />
 
-        {/* Page content */}
+        {/* Page Content */}
         <main className="flex-1 p-4 lg:p-8">
           {children}
         </main>
-
-        {/* Footer */}
-        <footer className="px-4 lg:px-8 py-4 border-t border-slate-200 bg-white">
-          <p className="text-xs text-slate-400 text-center">
-            PhishGuard &copy; {new Date().getFullYear()} — CSC 4162 Python Programming Project
-          </p>
-        </footer>
       </div>
     </div>
   );
 }
-
