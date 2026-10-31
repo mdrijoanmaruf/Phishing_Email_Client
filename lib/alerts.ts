@@ -73,5 +73,27 @@ export const showConfirmDelete = (title: string, text: string) => {
   });
 };
 
+/**
+ * Confirmation dialog for blacklisting a domain
+ */
+export const showConfirmBlacklist = (domain: string) => {
+  return Swal.fire({
+    ...themeDefaults,
+    icon: 'warning',
+    iconColor: '#ef4444',
+    title: `Blacklist '${domain}'?`,
+    text: `Add '${domain}' to the blocked domains blacklist? This will be saved directly to data/blacklist.json.`,
+    showCancelButton: true,
+    confirmButtonText: 'Yes, Block Domain',
+    cancelButtonText: 'Cancel',
+    reverseButtons: true,
+    customClass: {
+      ...themeDefaults.customClass,
+      confirmButton:
+        'px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-700/20 cursor-pointer',
+    },
+  });
+};
+
 export default Swal;
 

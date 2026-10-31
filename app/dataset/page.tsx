@@ -10,12 +10,14 @@ import {
   deleteDatasetRecord,
   getExportCsvUrl,
   logActivity,
+  addToBlacklist,
   EmailRecordItem,
 } from '@/lib/api';
 import {
   showSuccessToast,
   showErrorAlert,
   showConfirmDelete,
+  showConfirmBlacklist,
 } from '@/lib/alerts';
 import {
   Database,
@@ -32,6 +34,7 @@ import {
   Download,
   Edit2,
   Trash2,
+  ShieldBan,
 } from 'lucide-react';
 
 export default function DatasetPage() {
@@ -234,6 +237,34 @@ export default function DatasetPage() {
     }
   };
 
+  // Blacklist Domain Action with SweetAlert
+  const handleBlacklistClick = async (record: EmailRecordItem) => {
+    let domain = record.domain?.trim().toLowerCase();
+    if (!domain && record.sender) {
+      const match = record.sender.match(/@([\w\.-]+\.[a-zA-Z]{2,})/);
+      if (match) {
+        domain = match[1].toLowerCase();
+      } else if (record.sender.includes('@')) {
+        domain = record.sender.split('@')[1].trim().replace(/[>)\s]/g, '').toLowerCase();
+      }
+    }
+
+    if (!domain) {
+      showErrorAlert('Missing Domain', 'No valid domain name could be extracted from this record.');
+      return;
+    }
+
+    const result = await showConfirmBlacklist(domain);
+    if (result.isConfirmed) {
+      try {
+        const res = await addToBlacklist(domain);
+        showSuccessToast('Domain Blacklisted', res.message || `Domain '${domain}' added to blacklist.json`);
+      } catch (err: any) {
+        showErrorAlert('Blacklist Failed', err.message || 'Could not add domain to blacklist.');
+      }
+    }
+  };
+
   // CSV Export Trigger
   const handleExportCsv = () => {
     const exportUrl = getExportCsvUrl(searchQuery, labelFilter, domainFilter);
@@ -422,7 +453,7 @@ export default function DatasetPage() {
                   <th className="px-4 py-3.5 w-36">Domain</th>
                   <th className="px-4 py-3.5 w-28">Label</th>
                   <th className="px-4 py-3.5 w-36">Date</th>
-                  <th className="px-4 py-3.5 w-28 text-center">Actions</th>
+                  <th className="px-4 py-3.5 w-32 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -493,6 +524,13 @@ export default function DatasetPage() {
                             title="Edit Record"
                           >
                             <Edit2 className="w-4 h-4 text-amber-600" />
+                          </button>
+                          <button
+                            onClick={() => handleBlacklistClick(record)}
+                            className="p-1.5 rounded-md text-gray-400 hover:text-rose-700 hover:bg-rose-50 transition-colors cursor-pointer"
+                            title={record.domain ? `Blacklist Domain (${record.domain})` : 'Blacklist Sender Domain'}
+                          >
+                            <ShieldBan className="w-4 h-4 text-rose-500" />
                           </button>
                           <button
                             onClick={() => handleDeleteClick(record)}
@@ -848,7 +886,18 @@ export default function DatasetPage() {
                 </div>
                 <div>
                   <span className="font-semibold text-gray-500 uppercase tracking-wider text-xs block">Domain</span>
-                  <span className="font-mono text-indigo-700 font-medium text-xs">{selectedRecord.domain}</span>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="font-mono text-indigo-700 font-medium text-xs">{selectedRecord.domain || '—'}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleBlacklistClick(selectedRecord)}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-2 py-0.5 rounded border border-rose-200 transition-colors cursor-pointer"
+                      title="Add domain to blacklist.json"
+                    >
+                      <ShieldBan className="w-3 h-3" />
+                      Blacklist Domain
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <span className="font-semibold text-gray-500 uppercase tracking-wider text-xs block">Date</span>
