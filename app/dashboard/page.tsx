@@ -263,11 +263,14 @@ export default function DashboardPage() {
                 <div className="space-y-2.5">
                   {recentScans.map((item) => {
                     const act = (item.action || 'LOG').toUpperCase();
-                    const isAdd = act.includes('ADD');
-                    const isEdit = act.includes('EDIT');
-                    const isDelete = act.includes('DELETE');
+                    const isBlacklist = act.includes('BLACKLIST');
+                    const isAdd = !isBlacklist && (act.includes('ADD') || act.includes('CREATE'));
+                    const isEdit = act.includes('EDIT') || act.includes('UPDATE');
+                    const isDelete = !isBlacklist && (act.includes('DELETE') || act.includes('REMOVE'));
                     const isView = act.includes('VIEW');
-                    const badgeClass = isAdd
+                    const badgeClass = isBlacklist
+                      ? 'bg-amber-50 text-amber-700 border-amber-200'
+                      : isAdd
                       ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                       : isEdit
                       ? 'bg-indigo-50 text-indigo-700 border-indigo-200'
@@ -275,7 +278,7 @@ export default function DashboardPage() {
                       ? 'bg-red-50 text-red-700 border-red-200'
                       : isView
                       ? 'bg-blue-50 text-blue-700 border-blue-200'
-                      : 'bg-amber-50 text-amber-700 border-amber-200';
+                      : 'bg-gray-100 text-gray-700 border-gray-200';
 
                     return (
                       <div
