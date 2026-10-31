@@ -29,6 +29,68 @@ export interface PaginatedDatasetResponse {
   message?: string;
 }
 
+export interface ScanResult {
+  id: string;
+  timestamp: string;
+  sender: string;
+  domain: string;
+  subject: string;
+  body: string;
+  score: number;
+  verdict: 'SAFE' | 'SUSPICIOUS' | 'PHISHING';
+  reasons: string[];
+  urls: string[];
+  keywords_found: string[];
+  details?: {
+    blacklisted_domain?: boolean;
+    high_risk_tld?: boolean;
+    caps_ratio?: number;
+    exclamation_count?: number;
+    rule_scores?: Record<string, number>;
+  };
+}
+
+export interface AnalyticsSummary {
+  total_dataset_records: number;
+  phishing_count: number;
+  safe_count: number;
+  phishing_percentage: number;
+  total_scans_performed: number;
+  blacklisted_domains_count: number;
+  recent_scans_breakdown: {
+    safe: number;
+    suspicious: number;
+    phishing: number;
+  };
+}
+
+export interface ScoresStatistics {
+  sample_size: number;
+  mean: number;
+  std: number;
+  median: number;
+  p25: number;
+  p75: number;
+  min: number;
+  max: number;
+  histogram: {
+    range: string;
+    count: number;
+    percentage: number;
+  }[];
+}
+
+export interface KeywordItem {
+  keyword: string;
+  count: number;
+  percentage: number;
+}
+
+export interface DomainItem {
+  domain: string;
+  phishing_count: number;
+}
+
 /**
  * Fetch paginated email records from GET /api/dataset
  */
@@ -173,4 +235,172 @@ export function getExportCsvUrl(query?: string, label?: string | number, domain?
 
   const qs = new URLSearchParams(params).toString();
   return `${API_BASE_URL}/api/dataset/export${qs ? `?${qs}` : ''}`;
+}
+
+// ==========================================
+// BLACKLIST APIS
+// ==========================================
+
+export async function getBlacklist(): Promise<{ success: boolean; count: number; data: string[] }> {
+  const res = await fetch(`${API_BASE_URL}/api/blacklist`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+  });
+
+  const json = await res.json();
+  if (!res.ok) {
+    throw new Error(json.error || 'Failed to fetch blacklist');
+  }
+
+  return json;
+}
+
+export async function addToBlacklist(domain: string): Promise<{ success: boolean; message: string; domain: string; count: number }> {
+  const res = await fetch(`${API_BASE_URL}/api/blacklist`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ domain }),
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to add domain to blacklist');
+  }
+
+  return json;
+}
+
+export async function removeFromBlacklist(domain: string): Promise<{ success: boolean; message: string; count: number }> {
+  const res = await fetch(`${API_BASE_URL}/api/blacklist/${encodeURIComponent(domain)}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to remove domain from blacklist');
+  }
+
+  return json;
+}
+
+// ==========================================
+// HISTORY APIS
+// ==========================================
+
+export async function getHistory(
+  verdict?: string,
+  limit: number = 100
+): Promise<{ success: boolean; count: number; total: number; data: ScanResult[] }> {
+  const params: Record<string, string> = { limit: String(limit) };
+  if (verdict && verdict !== 'ALL') {
+    params.verdict = verdict;
+  }
+
+  const qs = new URLSearchParams(params).toString();
+  const res = await fetch(`${API_BASE_URL}/api/history${qs ? `?${qs}` : ''}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+  });
+
+  const json = await res.json();
+  if (!res.ok) {
+    throw new Error(json.error || 'Failed to fetch scan history');
+  }
+
+  return json;
+}
+
+export async function deleteHistoryItem(id: string): Promise<{ success: boolean; message: string; count: number }> {
+  const res = await fetch(`${API_BASE_URL}/api/history/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to delete history record');
+  }
+
+  return json;
+}
+
+export async function clearAllHistory(): Promise<{ success: boolean; message: string }> {
+  const res = await fetch(`${API_BASE_URL}/api/history`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to clear scan history');
+  }
+
+  return json;
+}
+
+// ==========================================
+// ANALYTICS APIS
+// ==========================================
+
+export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
+  const res = await fetch(`${API_BASE_URL}/api/analytics/summary`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to fetch analytics summary');
+  }
+
+  return json.data;
+}
+
+export async function getScoresStatistics(): Promise<ScoresStatistics> {
+  const res = await fetch(`${API_BASE_URL}/api/analytics/scores`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to fetch scores statistics');
+  }
+
+  return json.data;
+}
+
+export async function getTopKeywords(): Promise<KeywordItem[]> {
+  const res = await fetch(`${API_BASE_URL}/api/analytics/top-keywords`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to fetch top keywords');
+  }
+
+  return json.data;
+}
+
+export async function getDomainBreakdown(): Promise<DomainItem[]> {
+  const res = await fetch(`${API_BASE_URL}/api/analytics/domain-breakdown`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+  });
+
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error || 'Failed to fetch domain breakdown');
+  }
+
+  return json.data;
 }

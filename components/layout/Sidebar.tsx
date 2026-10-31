@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   Database,
-  ScanLine,
   BarChart2,
   ShieldBan,
   History,
@@ -25,7 +24,6 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: '/dashboard', label: 'Dashboard', Icon: LayoutDashboard, exact: true },
   { href: '/dataset', label: 'Dataset', Icon: Database },
-  { href: '/scan', label: 'Scan Email', Icon: ScanLine },
   { href: '/analytics', label: 'Analytics', Icon: BarChart2 },
   { href: '/blacklist', label: 'Blacklist', Icon: ShieldBan },
   { href: '/history', label: 'Scan History', Icon: History },
@@ -125,12 +123,12 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 <span className="truncate">Flask API (5000)</span>
               </div>
               <Link
-                href="/scan"
+                href="/dataset"
                 onClick={onClose}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium text-indigo-700 hover:bg-indigo-50 transition-colors"
               >
                 <Server className="w-4 h-4 text-indigo-600" />
-                <span>Quick Scan</span>
+                <span>Dataset (71k)</span>
                 <ExternalLink className="w-3 h-3 ml-auto text-gray-400" />
               </Link>
             </div>

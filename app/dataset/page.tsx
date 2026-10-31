@@ -141,6 +141,23 @@ export default function DatasetPage() {
     setPage(1);
   };
 
+  // Generate numbered pages with ellipsis for large datasets
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (page <= 4) {
+        pages.push(1, 2, 3, 4, 5, '...', totalPages);
+      } else if (page >= totalPages - 3) {
+        pages.push(1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        pages.push(1, '...', page - 1, page, page + 1, '...', totalPages);
+      }
+    }
+    return pages;
+  };
+
   // Add Record Action with SweetAlert
   const handleAddSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -480,7 +497,7 @@ export default function DatasetPage() {
               <span className="font-bold text-gray-900">{totalPages.toLocaleString()}</span>
             </span>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-center">
               <button
                 onClick={() => handlePageChange(1)}
                 disabled={page <= 1 || loading}
@@ -492,18 +509,43 @@ export default function DatasetPage() {
               <button
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page <= 1 || loading}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" />
-                Previous
+                <span className="hidden sm:inline">Previous</span>
               </button>
+
+              {/* Numbered Page Buttons */}
+              {getPageNumbers().map((p, idx) =>
+                typeof p === 'number' ? (
+                  <button
+                    key={p}
+                    onClick={() => handlePageChange(p)}
+                    disabled={loading}
+                    className={`min-w-9 h-9 px-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
+                      p === page
+                        ? 'bg-gradient-to-r from-indigo-700 to-indigo-900 text-white shadow-md shadow-indigo-900/30'
+                        : 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:text-indigo-700'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ) : (
+                  <span
+                    key={`ellipsis-${idx}`}
+                    className="px-2 py-1 text-sm font-bold text-gray-400 select-none"
+                  >
+                    ...
+                  </span>
+                )
+              )}
 
               <button
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page >= totalPages || loading}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
               >
-                Next
+                <span className="hidden sm:inline">Next</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
               <button
