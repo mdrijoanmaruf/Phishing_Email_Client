@@ -57,11 +57,11 @@ export default function DashboardPage() {
       desc: 'Manage blocked malicious sender domains with instant O(1) set matching.',
     },
     {
-      title: 'Analytics & NumPy Stats',
+      title: 'Analytics & Metrics',
       href: '/analytics',
       icon: BarChart2,
-      badge: 'NumPy & pandas',
-      desc: 'Deep-dive into score statistics (mean, std, percentiles) and keyword frequency distributions.',
+      badge: 'Statistical Analysis',
+      desc: 'Deep-dive into score statistics, risk distributions, analyzed dataset columns, and keyword frequency metrics.',
     },
     {
       title: 'Activity History',
