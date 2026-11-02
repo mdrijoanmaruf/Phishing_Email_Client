@@ -7,9 +7,10 @@ import Topbar from '@/components/layout/Topbar';
 interface DashboardLayoutProps {
   children: ReactNode;
   pageTitle: string;
+  subtitle?: string;
 }
 
-export default function DashboardLayout({ children, pageTitle }: DashboardLayoutProps) {
+export default function DashboardLayout({ children, pageTitle, subtitle }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -28,10 +29,10 @@ export default function DashboardLayout({ children, pageTitle }: DashboardLayout
       {/* Main Content Area */}
       <div className="lg:ml-60 min-h-screen flex flex-col">
         {/* Top Header */}
-        <Topbar pageTitle={pageTitle} onMenuClick={() => setSidebarOpen(true)} />
+        <Topbar pageTitle={pageTitle} subtitle={subtitle} onMenuClick={() => setSidebarOpen(true)} />
 
         {/* Page Content */}
-        <main className="flex-1 p-4 lg:p-8">
+        <main className="flex-1 p-3.5 sm:p-5 lg:p-8">
           {children}
         </main>
       </div>
