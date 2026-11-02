@@ -64,10 +64,10 @@ export default function DashboardPage() {
       desc: 'Deep-dive into score statistics, risk distributions, analyzed dataset columns, and keyword frequency metrics.',
     },
     {
-      title: 'Activity History',
+      title: 'History',
       href: '/history',
       icon: History,
-      badge: 'Audit Trail',
+      badge: 'Action Logs',
       desc: 'Track all Add, Edit, Delete, View, and Blacklist operations persisted to history.json.',
     },
   ];
@@ -150,24 +150,24 @@ export default function DashboardPage() {
             </div>
           </Link>
 
-          {/* Card 3: Scans Performed */}
+          {/* Card 3: History */}
           <Link
             href="/history"
             className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow group"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                Audited Scans
+                History
               </span>
               <div className="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Activity className="w-4 h-4" />
+                <History className="w-4 h-4" />
               </div>
             </div>
             <div className="mt-3">
               <span className="text-2xl font-bold text-gray-900">
                 {summary ? summary.total_scans_performed : recentScans.length}
               </span>
-              <p className="text-[11px] text-gray-400 mt-0.5">Persisted to history</p>
+              <p className="text-[11px] text-gray-400 mt-0.5">Persisted history records</p>
             </div>
           </Link>
 
@@ -233,13 +233,13 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Recent Activity Widget */}
+          {/* History Widget */}
           <div className="lg:col-span-5 space-y-4">
             <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   <History className="w-4 h-4 text-indigo-600" />
-                  Recent Activity Logs
+                  History
                 </h2>
                 <Link
                   href="/history"
@@ -250,11 +250,11 @@ export default function DashboardPage() {
               </div>
 
               {loading ? (
-                <div className="py-12 text-center text-xs text-gray-400">Loading activity logs...</div>
+                <div className="py-12 text-center text-xs text-gray-400">Loading history...</div>
               ) : recentScans.length === 0 ? (
                 <div className="py-12 text-center text-xs text-gray-400">
                   <History className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                  No audit history records found.{' '}
+                  No history records found.{' '}
                   <Link href="/dataset" className="text-indigo-600 font-semibold hover:underline">
                     Explore dataset
                   </Link>

@@ -15,6 +15,7 @@ import {
   Table,
   CheckCircle2,
   Info,
+  History,
 } from 'lucide-react';
 import {
   getAnalyticsSummary,
@@ -196,14 +197,14 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Total Audited Operations */}
+          {/* History */}
           <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                Audited Operations
+                History
               </span>
               <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <Activity className="w-4 h-4" />
+                <History className="w-4 h-4" />
               </div>
             </div>
             <div className="mt-3">
