@@ -1,8 +1,5 @@
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import Swal from 'sweetalert2';
 
-/**
- * Common theme styling for PhishGuard SweetAlerts to match the dashboard design.
- */
 const themeDefaults = {
   customClass: {
     popup: 'rounded-xl border border-gray-200 shadow-2xl p-6 font-sans',
@@ -16,9 +13,6 @@ const themeDefaults = {
   buttonsStyling: false,
 };
 
-/**
- * Toast / notification alert
- */
 export const showSuccessToast = (title: string, text?: string) => {
   return Swal.fire({
     ...themeDefaults,
@@ -32,9 +26,6 @@ export const showSuccessToast = (title: string, text?: string) => {
   });
 };
 
-/**
- * Error alert
- */
 export const showErrorAlert = (title: string, text?: string) => {
   return Swal.fire({
     ...themeDefaults,
@@ -51,9 +42,6 @@ export const showErrorAlert = (title: string, text?: string) => {
   });
 };
 
-/**
- * Confirmation dialog for destructive actions (e.g. deletion)
- */
 export const showConfirmDelete = (title: string, text: string) => {
   return Swal.fire({
     ...themeDefaults,
@@ -73,9 +61,6 @@ export const showConfirmDelete = (title: string, text: string) => {
   });
 };
 
-/**
- * Confirmation dialog for blacklisting a domain
- */
 export const showConfirmBlacklist = (domain: string) => {
   return Swal.fire({
     ...themeDefaults,
@@ -96,4 +81,3 @@ export const showConfirmBlacklist = (domain: string) => {
 };
 
 export default Swal;
-

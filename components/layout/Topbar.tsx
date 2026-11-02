@@ -11,7 +11,6 @@ interface TopbarProps {
 export default function Topbar({ pageTitle, subtitle, onMenuClick }: TopbarProps) {
   return (
     <header className="h-16 sm:h-20 bg-white border-b border-gray-100 sticky top-0 z-30 px-3.5 sm:px-6 lg:px-8 flex items-center justify-between">
-      {/* Left Side */}
       <div className="flex items-center gap-3 sm:gap-4">
         <button
           type="button"
@@ -33,9 +32,7 @@ export default function Topbar({ pageTitle, subtitle, onMenuClick }: TopbarProps
         </div>
       </div>
 
-      {/* Right Side */}
       <div className="flex items-center gap-3">
-        {/* User Info (Desktop) */}
         <div className="hidden lg:flex items-center gap-3 p-2">
           <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-700 to-indigo-900 flex items-center justify-center text-white font-semibold shadow-sm">
             A
@@ -46,7 +43,6 @@ export default function Topbar({ pageTitle, subtitle, onMenuClick }: TopbarProps
           </div>
         </div>
 
-        {/* User Avatar (Mobile) */}
         <div className="lg:hidden">
           <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-700 to-indigo-900 flex items-center justify-center text-white font-bold text-sm shadow-sm">
             A

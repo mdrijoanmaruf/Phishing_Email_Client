@@ -92,7 +92,6 @@ export default function BlacklistPage() {
   return (
     <DashboardLayout pageTitle="Domain Blacklist System">
       <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto w-full">
-        {/* ── 1. Module Header Card ────────────────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm transition-all">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3 sm:gap-4">
@@ -109,7 +108,7 @@ export default function BlacklistPage() {
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-gray-500 mt-0.5 leading-relaxed">
-                  Domains in this blacklist incur an immediate +40 point penalty in the analysis engine
+                  Domains in this blacklist
                 </p>
               </div>
             </div>
@@ -128,7 +127,6 @@ export default function BlacklistPage() {
           </div>
         </div>
 
-        {/* ── 2. Add Domain Input Card ─────────────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm space-y-3">
           <div>
             <h2 className="text-sm sm:text-base font-bold text-gray-900 flex items-center gap-2">
@@ -172,9 +170,7 @@ export default function BlacklistPage() {
          
         </div>
 
-        {/* ── 3. Search & Domains List Container ───────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          {/* Table Toolbar */}
           <div className="p-3.5 sm:p-4 border-b border-gray-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white">
             <div className="relative w-full sm:w-80">
               <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -203,7 +199,6 @@ export default function BlacklistPage() {
             </div>
           </div>
 
-          {/* ── A: Mobile Card View (< 768px) ─────────────────────────── */}
           <div className="block md:hidden divide-y divide-gray-100">
             {loading ? (
               Array.from({ length: 4 }).map((_, i) => (
@@ -269,7 +264,6 @@ export default function BlacklistPage() {
             )}
           </div>
 
-          {/* ── B: Desktop Table View (>= 768px) ──────────────────────── */}
           <div className="hidden md:block overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50/80 text-gray-500 text-xs font-semibold uppercase tracking-wider border-b border-gray-100">

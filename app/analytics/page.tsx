@@ -120,7 +120,6 @@ export default function AnalyticsPage() {
   return (
     <DashboardLayout pageTitle="Analytics & Dataset Statistics">
       <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto w-full">
-        {/* ── 1. Module Header Card ────────────────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm transition-all">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3 sm:gap-4">
@@ -156,9 +155,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* ── 2. High-Level Overview Cards (4 Grid) ────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {/* Card 1: Dataset Scale */}
           <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -176,7 +173,6 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Card 2: Phishing Ratio */}
           <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -196,7 +192,6 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Card 3: History Scans */}
           <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -214,7 +209,6 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Card 4: Blocked Domains */}
           <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -235,7 +229,6 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* ── 3. Analyzed Dataset Columns Section ──────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-gray-100">
             <div>
@@ -275,7 +268,6 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* ── 4. Statistical Risk Score Metrics ────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <div>
@@ -300,7 +292,6 @@ export default function AnalyticsPage() {
             </span>
           </div>
 
-          {/* Responsive Metrics Grid (2 cols on mobile, 3 on tablet, 6 on desktop) */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 pt-1">
             <div className="bg-gray-50/80 p-3 sm:p-3.5 rounded-xl border border-gray-100">
               <span className="text-[10px] sm:text-[11px] text-gray-400 uppercase font-semibold block">Mean Score</span>
@@ -365,7 +356,6 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* ── 5. Score Distribution Histogram ─────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
@@ -425,7 +415,6 @@ export default function AnalyticsPage() {
                   })}
                 </div>
 
-                {/* Histogram Labels */}
                 <div className="grid grid-cols-10 gap-1.5 sm:gap-2 text-center">
                   {scores.histogram.map((bin, idx) => (
                     <span key={idx} className="text-[10px] sm:text-[11px] font-mono text-gray-400 truncate">
@@ -438,9 +427,7 @@ export default function AnalyticsPage() {
           )}
         </div>
 
-        {/* ── 6. 2-Column Grid: Keywords and Domains ───────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
-          {/* Top Phishing Keywords */}
           <div className="lg:col-span-6 bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm space-y-4">
             <div>
               <div className="flex flex-wrap items-center gap-2">
@@ -480,7 +467,6 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Top Sender Domains Breakdown */}
           <div className="lg:col-span-6 bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm space-y-4">
             <div>
               <div className="flex flex-wrap items-center gap-2">

@@ -181,7 +181,6 @@ export default function HistoryPage() {
   return (
     <DashboardLayout pageTitle="Activity & Audit History">
       <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto w-full">
-        {/* ── 1. Module Header Card ────────────────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm transition-all">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3 sm:gap-4">
@@ -229,9 +228,7 @@ export default function HistoryPage() {
           </div>
         </div>
 
-        {/* ── 2. Toolbar: Filter Pills & Search ────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-3 sm:p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-          {/* Action Filter Pills (Scrollable on small devices) */}
           <div className="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1.5 md:pb-0 w-full md:w-auto">
             {[
               { id: 'ALL', label: 'All Operations' },
@@ -256,7 +253,6 @@ export default function HistoryPage() {
             ))}
           </div>
 
-          {/* Search Input */}
           <div className="relative w-full md:w-80 shrink-0">
             <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
@@ -279,9 +275,7 @@ export default function HistoryPage() {
           </div>
         </div>
 
-        {/* ── 3. History Container (Table + Mobile Cards) ──────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          {/* Header count bar */}
           <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between text-xs text-gray-500 font-medium bg-white">
             <span>
               Showing <span className="font-bold text-gray-900">{filteredLogs.length}</span> of{' '}
@@ -298,7 +292,6 @@ export default function HistoryPage() {
             )}
           </div>
 
-          {/* ── A: Mobile Card View (< 768px) ─────────────────────────── */}
           <div className="block md:hidden divide-y divide-gray-100">
             {loading ? (
               Array.from({ length: 4 }).map((_, i) => (
@@ -334,7 +327,6 @@ export default function HistoryPage() {
                   key={item.id}
                   className="p-4 hover:bg-gray-50/60 transition-colors space-y-2.5"
                 >
-                  {/* Top Line: Badge & Time */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {getActionBadge(item.action)}
@@ -349,12 +341,10 @@ export default function HistoryPage() {
                     </div>
                   </div>
 
-                  {/* Summary */}
                   <p className="text-xs sm:text-sm text-gray-900 font-semibold leading-snug">
                     {item.summary}
                   </p>
 
-                  {/* Footer Meta & Actions */}
                   <div className="flex items-center justify-between gap-2 pt-2 border-t border-gray-100 text-[11px] text-gray-400">
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-1 text-gray-500 font-medium">
@@ -393,7 +383,6 @@ export default function HistoryPage() {
             )}
           </div>
 
-          {/* ── B: Desktop Table View (>= 768px) ──────────────────────── */}
           <div className="hidden md:block overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50/80 text-gray-500 text-xs font-semibold uppercase tracking-wider border-b border-gray-100">
@@ -436,7 +425,6 @@ export default function HistoryPage() {
                 ) : (
                   filteredLogs.map((item) => (
                     <tr key={item.id} className="hover:bg-gray-50/60 transition-colors">
-                      {/* Timestamp */}
                       <td className="py-3.5 px-6 whitespace-nowrap">
                         <div className="flex items-center gap-1.5 text-xs text-gray-500">
                           <Calendar className="w-3.5 h-3.5 text-gray-400" />
@@ -444,12 +432,10 @@ export default function HistoryPage() {
                         </div>
                       </td>
 
-                      {/* Action Badge */}
                       <td className="py-3.5 px-6 whitespace-nowrap">
                         {getActionBadge(item.action)}
                       </td>
 
-                      {/* Target Entity */}
                       <td className="py-3.5 px-6 whitespace-nowrap">
                         <div className="flex items-center gap-1.5">
                           {item.entity_type === 'BLACKLIST' ? (
@@ -463,7 +449,6 @@ export default function HistoryPage() {
                         </div>
                       </td>
 
-                      {/* Summary */}
                       <td className="py-3.5 px-6">
                         <div className="max-w-[320px]">
                           <p className="text-xs text-gray-800 font-medium truncate" title={item.summary}>
@@ -473,7 +458,6 @@ export default function HistoryPage() {
                         </div>
                       </td>
 
-                      {/* Actor */}
                       <td className="py-3.5 px-6 whitespace-nowrap">
                         <div className="flex items-center gap-1.5 text-xs text-gray-600">
                           <User className="w-3.5 h-3.5 text-gray-400" />
@@ -481,7 +465,6 @@ export default function HistoryPage() {
                         </div>
                       </td>
 
-                      {/* Actions */}
                       <td className="py-3.5 px-6 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1">
                           <button
@@ -511,7 +494,6 @@ export default function HistoryPage() {
           </div>
         </div>
 
-        {/* ── 4. Detail Inspection Modal ──────────────────────────────── */}
         {selectedLog && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-4 bg-gray-900/50 backdrop-blur-xs animate-in fade-in duration-200" onClick={() => setSelectedLog(null)}>
             <div
@@ -539,7 +521,6 @@ export default function HistoryPage() {
               </div>
 
               <div className="space-y-3.5 text-xs sm:text-sm overflow-y-auto flex-1 pr-1">
-                {/* Action Banner */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-4 rounded-xl bg-gray-50 border border-gray-100">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-gray-400 block mb-1">Operation Type</span>
@@ -553,7 +534,6 @@ export default function HistoryPage() {
                   </div>
                 </div>
 
-                {/* Meta Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 text-xs">
                   <div className="bg-gray-50 p-3 rounded-xl border border-gray-100">
                     <span className="text-gray-400 text-[11px] block">Target Entity</span>
@@ -569,7 +549,6 @@ export default function HistoryPage() {
                   </div>
                 </div>
 
-                {/* Description */}
                 <div>
                   <span className="text-xs font-semibold text-gray-700 block mb-1">Activity Summary</span>
                   <p className="text-xs text-gray-800 bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed">
@@ -577,7 +556,6 @@ export default function HistoryPage() {
                   </p>
                 </div>
 
-                {/* Stored JSON Details */}
                 {selectedLog.details && Object.keys(selectedLog.details).length > 0 && (
                   <div>
                     <span className="text-xs font-semibold text-gray-700 flex items-center gap-1.5 mb-1.5">

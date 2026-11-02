@@ -1,7 +1,3 @@
-/**
- * API client for PhishGuard Flask server.
- */
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export interface EmailRecordItem {
@@ -40,7 +36,6 @@ export interface HistoryLogItem {
   actor: string;
 }
 
-// Retain ScanResult interface for backwards-compatibility
 export type ScanResult = HistoryLogItem;
 
 export interface AnalyticsSummary {
@@ -84,9 +79,6 @@ export interface DomainItem {
   phishing_count: number;
 }
 
-/**
- * Fetch paginated email records from GET /api/dataset
- */
 export async function getDataset(
   page: number = 1,
   perPage: number = 20,
@@ -112,9 +104,6 @@ export async function getDataset(
   return res.json();
 }
 
-/**
- * Search and filter dataset from GET /api/dataset/search
- */
 export async function searchDataset(
   searchQuery?: string,
   label?: string | number,
@@ -153,9 +142,6 @@ export async function searchDataset(
   return res.json();
 }
 
-/**
- * Add a new email record via POST /api/dataset
- */
 export async function addDatasetRecord(data: {
   sender: string;
   subject: string;
@@ -177,9 +163,6 @@ export async function addDatasetRecord(data: {
   return json;
 }
 
-/**
- * Update an existing record via PUT /api/dataset/<id>
- */
 export async function updateDatasetRecord(
   id: string,
   data: Partial<EmailRecordItem>
@@ -198,9 +181,6 @@ export async function updateDatasetRecord(
   return json;
 }
 
-/**
- * Delete a record via DELETE /api/dataset/<id>
- */
 export async function deleteDatasetRecord(
   id: string
 ): Promise<{ success: boolean; message: string; id: string }> {
@@ -217,9 +197,6 @@ export async function deleteDatasetRecord(
   return json;
 }
 
-/**
- * Get the download URL for CSV export
- */
 export function getExportCsvUrl(query?: string, label?: string | number, domain?: string): string {
   const params: Record<string, string> = {};
   if (query && query.trim()) params.q = query.trim();
@@ -229,10 +206,6 @@ export function getExportCsvUrl(query?: string, label?: string | number, domain?
   const qs = new URLSearchParams(params).toString();
   return `${API_BASE_URL}/api/dataset/export${qs ? `?${qs}` : ''}`;
 }
-
-// ==========================================
-// BLACKLIST APIS
-// ==========================================
 
 export async function getBlacklist(): Promise<{ success: boolean; count: number; data: string[] }> {
   const res = await fetch(`${API_BASE_URL}/api/blacklist`, {
@@ -277,10 +250,6 @@ export async function removeFromBlacklist(domain: string): Promise<{ success: bo
 
   return json;
 }
-
-// ==========================================
-// HISTORY & AUDIT APIS
-// ==========================================
 
 export async function getHistory(
   action?: string,
@@ -359,10 +328,6 @@ export async function clearAllHistory(): Promise<{ success: boolean; message: st
 
   return json;
 }
-
-// ==========================================
-// ANALYTICS APIS
-// ==========================================
 
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   const res = await fetch(`${API_BASE_URL}/api/analytics/summary`, {

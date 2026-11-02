@@ -44,7 +44,6 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       }`}
     >
       <div className="h-full flex flex-col relative">
-        {/* Logo Header */}
         <div className="h-20 px-6 flex items-center justify-between border-b border-gray-100">
           <Link href="/dashboard" className="flex items-center gap-3" onClick={onClose}>
             <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-700 to-indigo-900 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-900/30">
@@ -68,7 +67,6 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           </button>
         </div>
 
-        {/* Navigation */}
         <nav
           className="flex-1 px-4 py-6 overflow-y-auto pb-28"
           role="navigation"
@@ -114,7 +112,6 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           </ul>
         </nav>
 
-        {/* Quick Links (Bottom-Left, full-width) */}
         <div className="absolute left-4 right-4 bottom-5">
           <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-2 w-full">
             <div className="flex flex-col gap-1">

@@ -47,30 +47,25 @@ export default function DatasetPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Search & Filters state
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [labelFilter, setLabelFilter] = useState<string>('all');
   const [domainFilter, setDomainFilter] = useState<string>('');
 
-  // Pagination state
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(20);
   const [total, setTotal] = useState<number>(71000);
   const [totalPages, setTotalPages] = useState<number>(3550);
 
-  // Modals state
   const [selectedRecord, setSelectedRecord] = useState<EmailRecordItem | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [editingRecord, setEditingRecord] = useState<EmailRecordItem | null>(null);
 
-  // Add form fields
   const [addSender, setAddSender] = useState<string>('');
   const [addSubject, setAddSubject] = useState<string>('');
   const [addBody, setAddBody] = useState<string>('');
   const [addLabel, setAddLabel] = useState<0 | 1>(0);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Unified load / search handler
   const loadData = useCallback(
     async (
       targetPage: number,
@@ -109,19 +104,16 @@ export default function DatasetPage() {
     []
   );
 
-  // Fetch when page or perPage changes
   useEffect(() => {
     loadData(page, perPage, searchQuery, labelFilter, domainFilter);
   }, [loadData, page, perPage]);
 
-  // Handle Search Submission
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setPage(1);
     loadData(1, perPage, searchQuery, labelFilter, domainFilter);
   };
 
-  // Handle Filter Change
   const handleLabelFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value;
     setLabelFilter(val);
@@ -129,7 +121,6 @@ export default function DatasetPage() {
     loadData(1, perPage, searchQuery, val, domainFilter);
   };
 
-  // Clear all filters
   const handleClearFilters = () => {
     setSearchQuery('');
     setLabelFilter('all');
@@ -150,7 +141,6 @@ export default function DatasetPage() {
     setPage(1);
   };
 
-  // Generate numbered pages with ellipsis for large datasets (Tablet/Desktop)
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     if (totalPages <= 7) {
@@ -167,7 +157,6 @@ export default function DatasetPage() {
     return pages;
   };
 
-  // Add Record Action with SweetAlert
   const handleAddSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!addSender.trim() || !addBody.trim()) {
@@ -199,7 +188,6 @@ export default function DatasetPage() {
     }
   };
 
-  // Update Record Action with SweetAlert
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingRecord) return;
@@ -224,7 +212,6 @@ export default function DatasetPage() {
     }
   };
 
-  // Delete Record Action with SweetAlert
   const handleDeleteClick = async (record: EmailRecordItem) => {
     const result = await showConfirmDelete(
       'Delete Email Record?',
@@ -242,7 +229,6 @@ export default function DatasetPage() {
     }
   };
 
-  // Blacklist Domain Action with SweetAlert
   const handleBlacklistClick = async (record: EmailRecordItem) => {
     let domain = record.domain?.trim().toLowerCase();
     if (!domain && record.sender) {
@@ -270,14 +256,12 @@ export default function DatasetPage() {
     }
   };
 
-  // CSV Export Trigger
   const handleExportCsv = () => {
     const exportUrl = getExportCsvUrl(searchQuery, labelFilter, domainFilter);
     window.open(exportUrl, '_blank');
     showSuccessToast('Export Started', 'Your CSV download should begin shortly.');
   };
 
-  // View Details with activity logging
   const handleViewRecord = (record: EmailRecordItem) => {
     setSelectedRecord(record);
     logActivity({
@@ -301,7 +285,6 @@ export default function DatasetPage() {
   return (
     <DashboardLayout pageTitle="Dataset Management">
       <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto w-full">
-        {/* ── 1. Top Header Card ─────────────────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm transition-all">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -323,7 +306,6 @@ export default function DatasetPage() {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
               <span className="text-xs sm:text-sm font-bold px-3 py-2 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100 shrink-0">
                 {total.toLocaleString()} Records
@@ -362,7 +344,6 @@ export default function DatasetPage() {
           </div>
         </div>
 
-        {/* ── 2. Error Notification ──────────────────────────────────── */}
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 sm:p-4 flex items-start gap-3 text-red-800 shadow-sm animate-fade-in">
             <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
@@ -379,10 +360,8 @@ export default function DatasetPage() {
           </div>
         )}
 
-        {/* ── 3. Search & Filter Bar ─────────────────────────────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-3 sm:p-4 shadow-sm">
           <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row items-stretch md:items-center gap-2.5 sm:gap-3">
-            {/* Search Input */}
             <div className="relative flex-1">
               <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
@@ -404,7 +383,6 @@ export default function DatasetPage() {
               )}
             </div>
 
-            {/* Label Filter Dropdown */}
             <div className="w-full md:w-48 shrink-0">
               <select
                 value={labelFilter}
@@ -417,7 +395,6 @@ export default function DatasetPage() {
               </select>
             </div>
 
-            {/* Actions: Search & Reset */}
             <div className="flex items-center gap-2 shrink-0">
               <button
                 type="submit"
@@ -438,7 +415,6 @@ export default function DatasetPage() {
             </div>
           </form>
 
-          {/* Active Filter Indicators */}
           {isFiltering && (
             <div className="mt-3 pt-3 border-t border-gray-100 flex flex-wrap items-center gap-2 text-xs">
               <span className="text-gray-400 font-medium">Active filters:</span>
@@ -466,9 +442,7 @@ export default function DatasetPage() {
           )}
         </div>
 
-        {/* ── 4. Main Records Container (Table + Mobile Cards) ─────────── */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          {/* Table Controls Bar */}
           <div className="px-3.5 sm:px-6 py-3 sm:py-3.5 border-b border-gray-100 flex flex-col xs:flex-row xs:items-center justify-between gap-2.5 bg-white">
             <div className="text-xs sm:text-sm text-gray-600 font-medium">
               Showing{' '}
@@ -500,7 +474,6 @@ export default function DatasetPage() {
             </div>
           </div>
 
-          {/* ── A: Mobile Card View (< 768px) ─────────────────────────── */}
           <div className="block md:hidden divide-y divide-gray-100">
             {loading ? (
               Array.from({ length: 6 }).map((_, i) => (
@@ -530,7 +503,6 @@ export default function DatasetPage() {
                   key={record.id}
                   className="p-4 hover:bg-indigo-50/20 transition-colors space-y-2.5"
                 >
-                  {/* Top line: ID, Label, Date */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-xs font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
@@ -556,12 +528,10 @@ export default function DatasetPage() {
                     )}
                   </div>
 
-                  {/* Subject */}
                   <h3 className="text-sm font-bold text-gray-900 leading-snug line-clamp-2">
                     {record.subject || '(No Subject)'}
                   </h3>
 
-                  {/* Sender & Domain */}
                   <div className="space-y-1 text-xs">
                     <div className="flex items-center gap-1.5 text-gray-600 truncate">
                       <Mail className="w-3.5 h-3.5 text-gray-400 shrink-0" />
@@ -577,7 +547,6 @@ export default function DatasetPage() {
                     )}
                   </div>
 
-                  {/* Action Buttons Row */}
                   <div className="grid grid-cols-4 gap-1.5 pt-2 border-t border-gray-100">
                     <button
                       type="button"
@@ -621,7 +590,6 @@ export default function DatasetPage() {
             )}
           </div>
 
-          {/* ── B: Desktop/Tablet Table View (>= 768px) ────────────────── */}
           <div className="hidden md:block overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-sm border-collapse table-fixed min-w-[860px]">
               <thead>
@@ -733,14 +701,12 @@ export default function DatasetPage() {
             </table>
           </div>
 
-          {/* ── 5. Responsive Pagination Bar ──────────────────────────── */}
           <div className="px-3.5 sm:px-6 py-3 sm:py-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 bg-white">
             <span className="text-xs sm:text-sm text-gray-600 font-medium order-2 sm:order-1 text-center sm:text-left">
               Page <span className="font-bold text-gray-900">{page}</span> of{' '}
               <span className="font-bold text-gray-900">{totalPages.toLocaleString()}</span>
             </span>
 
-            {/* Mobile Compact Pagination (< 640px) */}
             <div className="flex sm:hidden items-center gap-1.5 order-1 sm:order-2 w-full justify-between xs:w-auto xs:justify-center">
               <button
                 type="button"
@@ -785,7 +751,6 @@ export default function DatasetPage() {
               </button>
             </div>
 
-            {/* Tablet/Desktop Numbered Pagination (>= 640px) */}
             <div className="hidden sm:flex items-center gap-1 sm:gap-1.5 flex-wrap justify-center order-2">
               <button
                 type="button"
@@ -806,7 +771,6 @@ export default function DatasetPage() {
                 <span>Previous</span>
               </button>
 
-              {/* Numbered Page Buttons */}
               {getPageNumbers().map((p, idx) =>
                 typeof p === 'number' ? (
                   <button
@@ -854,7 +818,6 @@ export default function DatasetPage() {
           </div>
         </div>
 
-        {/* ── 6. Modal: Add Email ─────────────────────────────────────── */}
         {isAddModalOpen && (
           <div
             className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3.5 sm:p-4 animate-fade-in"
@@ -983,7 +946,6 @@ export default function DatasetPage() {
           </div>
         )}
 
-        {/* ── 7. Modal: Edit Email ────────────────────────────────────── */}
         {editingRecord && (
           <div
             className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3.5 sm:p-4 animate-fade-in"
@@ -1114,7 +1076,6 @@ export default function DatasetPage() {
           </div>
         )}
 
-        {/* ── 8. Modal: Detail View ──────────────────────────────────── */}
         {selectedRecord && (
           <div
             className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3.5 sm:p-4 animate-fade-in"

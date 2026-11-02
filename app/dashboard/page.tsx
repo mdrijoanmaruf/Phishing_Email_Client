@@ -4,10 +4,8 @@ import React, { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Link from 'next/link';
 import {
-  ShieldAlert,
   Database,
-  BarChart2,
-  ShieldBan,
+  ShieldAlert,
   History,
   ArrowRight,
   Layers,
@@ -48,15 +46,15 @@ export default function DashboardPage() {
     {
       title: 'Sender Blacklist',
       href: '/blacklist',
-      icon: ShieldBan,
-      badge: `${summary?.blacklisted_domains_count || 7} Domains`,
-      desc: 'Manage blocked malicious sender domains with instant O(1) set matching.',
+      icon: ShieldAlert,
+      badge: 'Zero-Tolerance',
+      desc: 'Manage high-risk root domains that receive immediate score penalties in our rule detection pipeline.',
     },
     {
-      title: 'Analytics & Metrics',
+      title: 'Analytics & Trends',
       href: '/analytics',
-      icon: BarChart2,
-      badge: 'Statistical Analysis',
+      icon: Layers,
+      badge: 'NumPy Engine',
       desc: 'Deep-dive into score statistics, risk distributions, analyzed dataset columns, and keyword frequency metrics.',
     },
     {
@@ -71,7 +69,6 @@ export default function DashboardPage() {
   return (
     <DashboardLayout pageTitle="System Overview">
       <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto w-full">
-        {/* Welcome Header Card */}
         <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm transition-all">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
@@ -85,11 +82,10 @@ export default function DashboardPage() {
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
-                Phishing email security analytics and 71,000-record dataset explorer (CSC 4162 Project)
+                Phishing email security analytics
               </p>
             </div>
 
-            {/* Quick Action Button */}
             <div className="flex items-center gap-2 sm:self-center shrink-0 w-full sm:w-auto">
               <Link
                 href="/dataset"
@@ -102,9 +98,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 4 Stat Overview Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {/* Card 1: Total Dataset */}
           <Link
             href="/dataset"
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-indigo-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
@@ -125,7 +119,6 @@ export default function DashboardPage() {
             </div>
           </Link>
 
-          {/* Card 2: Phishing Ratio */}
           <Link
             href="/analytics"
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-red-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
@@ -148,7 +141,6 @@ export default function DashboardPage() {
             </div>
           </Link>
 
-          {/* Card 3: History */}
           <Link
             href="/history"
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-emerald-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
@@ -169,7 +161,6 @@ export default function DashboardPage() {
             </div>
           </Link>
 
-          {/* Card 4: Blacklisted Domains */}
           <Link
             href="/blacklist"
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-amber-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
@@ -191,9 +182,7 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        {/* 2-Column: Modules & Recent Scans */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start">
-          {/* Module Grid */}
           <div className="lg:col-span-7 space-y-4">
             <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 md:p-6 shadow-sm space-y-3.5 sm:space-y-4">
               <div className="flex items-center justify-between gap-2 border-b border-gray-100 pb-3">
@@ -235,7 +224,6 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* History Widget */}
           <div className="lg:col-span-5 space-y-4">
             <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 md:p-6 shadow-sm space-y-3.5 sm:space-y-4">
               <div className="flex items-center justify-between gap-2 border-b border-gray-100 pb-3">
