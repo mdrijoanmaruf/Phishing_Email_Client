@@ -169,9 +169,7 @@ export default function BlacklistPage() {
               )}
             </button>
           </form>
-          <p className="text-[11px] text-gray-400">
-            Tip: You can paste full URLs or email addresses; the root domain name will be automatically normalized.
-          </p>
+         
         </div>
 
         {/* ── 3. Search & Domains List Container ───────────────────────── */}

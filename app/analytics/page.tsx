@@ -304,7 +304,7 @@ export default function AnalyticsPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 pt-1">
             <div className="bg-gray-50/80 p-3 sm:p-3.5 rounded-xl border border-gray-100">
               <span className="text-[10px] sm:text-[11px] text-gray-400 uppercase font-semibold block">Mean Score</span>
-              <span className="text-lg sm:text-xl font-black text-gray-900 mt-1 block tracking-tight">
+              <span className="text-lg sm:text-xl font-semibold text-gray-900 mt-1 block tracking-tight">
                 {scores ? scores.mean : '—'}
               </span>
               <span className="text-[10px] text-indigo-600 font-medium">Average Score</span>
@@ -314,7 +314,7 @@ export default function AnalyticsPage() {
               <span className="text-[10px] sm:text-[11px] text-gray-400 uppercase font-semibold block">
                 Std Deviation
               </span>
-              <span className="text-lg sm:text-xl font-black text-gray-900 mt-1 block tracking-tight">
+              <span className="text-lg sm:text-xl font-semibold text-gray-900 mt-1 block tracking-tight">
                 {scores ? scores.std : '—'}
               </span>
               <span className="text-[10px] text-indigo-600 font-medium">Spread &amp; Variance</span>
@@ -322,7 +322,7 @@ export default function AnalyticsPage() {
 
             <div className="bg-gray-50/80 p-3 sm:p-3.5 rounded-xl border border-gray-100">
               <span className="text-[10px] sm:text-[11px] text-gray-400 uppercase font-semibold block">Median</span>
-              <span className="text-lg sm:text-xl font-black text-gray-900 mt-1 block tracking-tight">
+              <span className="text-lg sm:text-xl font-semibold text-gray-900 mt-1 block tracking-tight">
                 {scores ? scores.median : '—'}
               </span>
               <span className="text-[10px] text-indigo-600 font-medium">50th Percentile</span>
@@ -332,7 +332,7 @@ export default function AnalyticsPage() {
               <span className="text-[10px] sm:text-[11px] text-gray-400 uppercase font-semibold block">
                 25th Percentile
               </span>
-              <span className="text-lg sm:text-xl font-black text-gray-900 mt-1 block tracking-tight">
+              <span className="text-lg sm:text-xl font-semibold text-gray-900 mt-1 block tracking-tight">
                 {scores ? scores.p25 : '—'}
               </span>
               <span className="text-[10px] text-indigo-600 font-medium">Lower Quartile</span>
@@ -342,7 +342,7 @@ export default function AnalyticsPage() {
               <span className="text-[10px] sm:text-[11px] text-gray-400 uppercase font-semibold block">
                 75th Percentile
               </span>
-              <span className="text-lg sm:text-xl font-black text-gray-900 mt-1 block tracking-tight">
+              <span className="text-lg sm:text-xl font-semibold text-gray-900 mt-1 block tracking-tight">
                 {scores ? scores.p75 : '—'}
               </span>
               <span className="text-[10px] text-indigo-600 font-medium">Upper Quartile</span>
@@ -350,7 +350,7 @@ export default function AnalyticsPage() {
 
             <div className="bg-gray-50/80 p-3 sm:p-3.5 rounded-xl border border-gray-100">
               <span className="text-[10px] sm:text-[11px] text-gray-400 uppercase font-semibold block">Score Range</span>
-              <span className="text-lg sm:text-xl font-black text-gray-900 mt-1 block tracking-tight truncate">
+              <span className="text-lg sm:text-xl font-semibold text-gray-900 mt-1 block tracking-tight truncate">
                 {scores ? `${scores.min}–${scores.max}` : '0–100'}
               </span>
               <span className="text-[10px] text-indigo-600 font-medium">Min to Max</span>

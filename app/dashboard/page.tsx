@@ -110,7 +110,7 @@ export default function DashboardPage() {
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-indigo-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider truncate">
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                 Dataset Scale
               </span>
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
@@ -118,7 +118,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="mt-2.5 sm:mt-3">
-              <span className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight block">
+              <span className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight block">
                 {summary ? summary.total_dataset_records.toLocaleString() : '71,000'}
               </span>
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">Records in memory</p>
@@ -131,7 +131,7 @@ export default function DashboardPage() {
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-red-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider truncate">
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                 Phishing Ratio
               </span>
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
@@ -139,7 +139,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="mt-2.5 sm:mt-3">
-              <span className="text-2xl sm:text-3xl font-black text-red-600 tracking-tight block">
+              <span className="text-2xl sm:text-3xl font-semibold text-red-600 tracking-tight block">
                 {summary ? `${summary.phishing_percentage}%` : '55.8%'}
               </span>
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">
@@ -154,7 +154,7 @@ export default function DashboardPage() {
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-emerald-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider truncate">
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                 History
               </span>
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
@@ -162,7 +162,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="mt-2.5 sm:mt-3">
-              <span className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight block">
+              <span className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight block">
                 {summary ? summary.total_scans_performed : recentScans.length}
               </span>
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">Persisted history records</p>
@@ -175,7 +175,7 @@ export default function DashboardPage() {
             className="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-amber-100 active:scale-[0.99] transition-all group flex flex-col justify-between"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider truncate">
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider truncate">
                 Blacklisted Domains
               </span>
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
@@ -183,7 +183,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="mt-2.5 sm:mt-3">
-              <span className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight block">
+              <span className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight block">
                 {summary ? summary.blacklisted_domains_count : 7}
               </span>
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">O(1) Set lookup</p>
